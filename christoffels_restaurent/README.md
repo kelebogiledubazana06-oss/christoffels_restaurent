@@ -48,3 +48,10 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+References
+Expo, 2026. Expo Router: File-based routing for React Native. Available at: expo.dev [Accessed 10 September 2026].
+Meta Open Source, 2026. React Native Core Components and APIs. Available at: reactnative.dev [Accessed 10 September 2026].
+Expo, 2026. Expo Router: File-based routing for React Native. Available at: expo.dev [Accessed 10 September 2026].
+React Core Team, 2026. React Documentation: Managing State Hooks. Available at: react.dev [Accessed 10 September 2026].
+GitHub, Inc., 2026. GitHub Desktop User Guide: Committing and syncing changes. Available at: github.com [Accessed 10 September 2026].
