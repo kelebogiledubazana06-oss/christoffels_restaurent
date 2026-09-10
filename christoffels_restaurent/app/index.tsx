@@ -6,10 +6,12 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
+      {/* Top decorative design bar */}
       <View style={styles.headerLine} />
       
       <Text style={styles.restaurantName}>Christoffel's Restaurant</Text>
 
+{/* Renders branding logo element from local assets */}
       <View style={styles.logoBox}>
         <Image
         source={require('../assets/images/CR_logo.png')}
@@ -22,6 +24,7 @@ export default function Index() {
 
       <Text style={styles.welcome}>WELCOME</Text>
 
+      {/* Navigates users to the main menu screen page */}
       <TouchableOpacity style={styles.btn} onPress={() => router.push('/menu')}>
         <Text style={styles.btnText}>Proceed</Text>
       </TouchableOpacity>

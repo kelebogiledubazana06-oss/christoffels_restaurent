@@ -5,6 +5,8 @@ import { addMenuItem } from './menuStore';
 
 export default function AddItem() {
   const router = useRouter();
+  
+  // Input fields, error tracking, and success states
   const [name, setName] = useState('');
   const [desc, setDesc] = useState('');
   const [course, setCourse] = useState('');
@@ -12,20 +14,25 @@ export default function AddItem() {
   const [errors, setErrors] = useState<any>({});
   const [success, setSuccess] = useState('');
 
+  // Checks if fields are valid before saving
   const validate = () => {
     let newErrors: any = {};
     if (!name.trim()) newErrors.name = 'Dish name is required';
     if (!desc.trim()) newErrors.desc = 'Description is required';
     if (!course) newErrors.course = 'Please select a course';
+    
     if (!price.trim()) newErrors.price = 'Price is required';
     else if (isNaN(Number(price)) || Number(price) <= 0) newErrors.price = 'Enter a valid price';
+    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
+  // Saves data and provides UI alerts
   const handleSave = () => {
     if (!validate()) return;
 
+    // Adds a unique ID using current timestamp and saves to menu store
     addMenuItem({
       id: Date.now().toString(),
       name: name.trim(),
@@ -34,12 +41,10 @@ export default function AddItem() {
       price: price.trim(),
     });
 
-    // CONFIRMATION - Visible on screen + Alert
     setSuccess(`"${name}" added successfully!`);
-    
     Alert.alert('Success!', `"${name}" has been added to the menu.`);
 
-    // Go back after 1.5 seconds so they can see the confirmation
+    // Delay navigation so user can read the success message
     setTimeout(() => {
       router.push('/menu');
     }, 1500);
@@ -53,7 +58,7 @@ export default function AddItem() {
         <Text style={styles.title}>Add menu Item</Text>
       </View>
 
-      {/* CONFIRMATION MESSAGE - Requirement 4 */}
+      {/* Shows green message box only on successful save */}
       {success ? (
         <View style={styles.successBox}>
           <Text style={styles.successText}>✓ {success}</Text>

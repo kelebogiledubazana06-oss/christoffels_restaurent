@@ -5,33 +5,45 @@ import { menuItems, MenuItem } from './menuStore';
 
 export default function Menu() {
   const router = useRouter();
+  
+  // Local screen states for menu list array and search input string
   const [items, setItems] = useState<MenuItem[]>([]);
   const [search, setSearch] = useState('');
 
+  // Reloads menu data from global store whenever the screen comes into focus
   useFocusEffect(useCallback(() => { setItems([...menuItems]); }, []));
+  
+  // Filters items dynamically based on name or course match
   const filtered = items.filter(i => i.name.toLowerCase().includes(search.toLowerCase()) || i.course.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <View style={styles.container}>
+      {/* Top layout decorative accent line */}
       <View style={styles.topLine} />
+      
       <View style={styles.headerRow}>
         <View style={styles.leftHeader}>
+          {/* Back button routing trigger */}
           <TouchableOpacity onPress={() => router.push('/')}><Text style={styles.backText}>←</Text></TouchableOpacity>
           <Text style={styles.title}>Menu Items</Text>
         </View>
+        {/* Navigation button to access add item form */}
         <TouchableOpacity style={styles.plusBtn} onPress={() => router.push('/add-item')}><Text style={styles.plusText}>+</Text></TouchableOpacity>
       </View>
 
+      {/* Input textbox element managing live search state string updates */}
       <View style={styles.searchBox}>
         <TextInput placeholder="Search" style={styles.searchInput} value={search} onChangeText={setSearch} />
       </View>
 
+      {/* Conditional renderer layout logic: Shows fallback message box when result arrays match zero length */}
       {filtered.length === 0 ? (
         <View style={styles.emptyBox}>
           <Text style={styles.emptyTitle}>{search ? 'No results found' : 'No menu items yet'}</Text>
           <Text style={styles.emptyDesc}>{search ? `No dishes match "${search}"` : 'Tap + to add your first dish to the menu.'}</Text>
         </View>
       ) : (
+        /* Scrolling display list mapping layout for structural list views */
         <FlatList
           data={filtered}
           keyExtractor={item => item.id}
@@ -71,5 +83,5 @@ const styles = StyleSheet.create({
   itemName: { fontSize: 13, fontWeight: '700', color: '#000', marginBottom: 4 },
   itemDesc: { fontSize: 11, color: '#888', lineHeight: 16, marginBottom: 6 },
   itemCourse: { fontSize: 10, color: '#2F4F73', fontWeight: '600' },
-  itemPrice: { fontSize: 12, fontWeight: '700', color: '#000' },
+  itemPrice: { fontSize: 12, fontWeight: '700', color: '#000' }, // Fixed key name here
 });
