@@ -4,7 +4,7 @@ A React Native (Expo Router) app that lets the chef manage the restaurant menu.
 
 **Where the app is:** all the app code is in the `christoffels_restaurent` folder of this repository.
 
-**Video demo:** PASTE YOUR YOUTUBE LINK HERE
+**Video demo:** 
 
 ## How to run
 
