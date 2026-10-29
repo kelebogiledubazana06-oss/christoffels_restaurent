@@ -64,13 +64,13 @@ export default function Menu() {
   return (
     <View style={styles.container}>
 
-          <View style={{ backgroundColor: '#F2F6FA', marginHorizontal: '6%', marginBottom: 12, padding: 12, borderRadius: 8 }}>
-        <Text style={{ fontSize: 13, fontWeight: '800', color: '#000', marginBottom: 6 }}>Menu Statistics</Text>
-        <Text style={{ fontSize: 12, color: '#000' }}>Total items: {total}</Text>
-        <Text style={{ fontSize: 12, color: '#000' }}>Average price: R{average.toFixed(2)}</Text>
-        <Text style={{ fontSize: 12, color: '#000' }}>Starters: {countFor('Starters')}</Text>
-        <Text style={{ fontSize: 12, color: '#000' }}>Main courses: {countFor('Main courses')}</Text>
-        <Text style={{ fontSize: 12, color: '#000' }}>Desserts: {countFor('Desserts')}</Text>
+                <View style={styles.statsBox}>
+        <Text style={styles.statsTitle}>Menu Statistics</Text>
+        <Text style={styles.statsText}>Total items: {total}</Text>
+        <Text style={styles.statsText}>Average price: R{average.toFixed(2)}</Text>
+        <Text style={styles.statsText}>Starters: {countFor('Starters')}</Text>
+        <Text style={styles.statsText}>Main courses: {countFor('Main courses')}</Text>
+        <Text style={styles.statsText}>Desserts: {countFor('Desserts')}</Text>
       </View>
 
       {/* Top layout decorative accent line */}
@@ -86,22 +86,17 @@ export default function Menu() {
         <TouchableOpacity style={styles.plusBtn} onPress={() => router.push('/add-item')}><Text style={styles.plusText}>+</Text></TouchableOpacity>
       </View>
 
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, paddingHorizontal: '6%', marginBottom: 10 }}>
-  {['All', 'Starters', 'Main courses', 'Desserts'].map(c => (
-    <TouchableOpacity
-      key={c}
-      onPress={() => setCourse(c)}
-      style={{
-        paddingHorizontal: 12,
-        paddingVertical: 6,
-        borderRadius: 14,
-        backgroundColor: course === c ? '#2F4F73' : '#F2F2F2',
-      }}
-    >
-      <Text style={{ fontSize: 11, fontWeight: '600', color: course === c ? '#FFF' : '#000' }}>{c}</Text>
-    </TouchableOpacity>
-  ))}
-</View>
+            <View style={styles.filterRow}>
+        {['All', 'Starters', 'Main courses', 'Desserts'].map(courseName => (
+          <TouchableOpacity
+            key={courseName}
+            onPress={() => setCourse(courseName)}
+            style={[styles.filterChip, course === courseName && styles.filterChipActive]}
+          >
+            <Text style={[styles.filterText, course === courseName && styles.filterTextActive]}>{courseName}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
 
       {/* Input textbox element managing live search state string updates */}
       <View style={styles.searchBox}>
@@ -180,4 +175,12 @@ const styles = StyleSheet.create({
   editText: { color: '#FFF', fontSize: 10, fontWeight: '700' },
   deleteBtn: { backgroundColor: '#FFEBEB', paddingHorizontal: 12, paddingVertical: 5, borderRadius: 5, borderWidth: 1, borderColor: '#FFCCCC' },
   deleteText: { color: '#D00', fontSize: 10, fontWeight: '700' },
+    statsBox: { backgroundColor: '#F2F6FA', marginHorizontal: '6%', marginBottom: 12, padding: 12, borderRadius: 8 },
+  statsTitle: { fontSize: 13, fontWeight: '800', color: '#000', marginBottom: 6 },
+  statsText: { fontSize: 12, color: '#000' },
+    filterRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, paddingHorizontal: '6%', marginBottom: 10 },
+  filterChip: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 14, backgroundColor: '#F2F2F2' },
+  filterChipActive: { backgroundColor: '#2F4F73' },
+  filterText: { fontSize: 11, fontWeight: '600', color: '#000' },
+  filterTextActive: { color: '#FFF' },
 });
