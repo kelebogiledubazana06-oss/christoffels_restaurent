@@ -18,7 +18,17 @@ export default function Menu() {
  const filtered = items.filter(i =>
   i.name.toLowerCase().includes(search.toLowerCase()) &&
   (course === 'All' || i.course === course)
-);
+  );
+
+  
+  // Statistics for the chef's overview
+  const total = items.length;
+  const average = total === 0
+    ? 0
+    : items.reduce((sum, i) => sum + Number(i.price), 0) / total;
+  const countFor = (c: string) => items.filter(i => i.course === c).length;
+
+
   // DELETE: Removes item from global store and reflects immediately
   const handleDelete = (id: string) => {
     const performDelete = () => {
@@ -53,6 +63,16 @@ export default function Menu() {
 
   return (
     <View style={styles.container}>
+
+          <View style={{ backgroundColor: '#F2F6FA', marginHorizontal: '6%', marginBottom: 12, padding: 12, borderRadius: 8 }}>
+        <Text style={{ fontSize: 13, fontWeight: '800', color: '#000', marginBottom: 6 }}>Menu Statistics</Text>
+        <Text style={{ fontSize: 12, color: '#000' }}>Total items: {total}</Text>
+        <Text style={{ fontSize: 12, color: '#000' }}>Average price: R{average.toFixed(2)}</Text>
+        <Text style={{ fontSize: 12, color: '#000' }}>Starters: {countFor('Starters')}</Text>
+        <Text style={{ fontSize: 12, color: '#000' }}>Main courses: {countFor('Main courses')}</Text>
+        <Text style={{ fontSize: 12, color: '#000' }}>Desserts: {countFor('Desserts')}</Text>
+      </View>
+
       {/* Top layout decorative accent line */}
       <View style={styles.topLine} />
       
