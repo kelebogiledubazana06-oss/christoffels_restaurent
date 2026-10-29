@@ -1,57 +1,47 @@
-# Welcome to your Expo app 👋
+# Christoffel's Restaurant - Menu Manager
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A React Native (Expo Router) app that lets the chef manage the restaurant menu.
 
-## Get started
+**Where the app is:** all the app code is in the `christoffels_restaurent` folder of this repository.
 
-1. Install dependencies
+**Video demo:** PASTE YOUR YOUTUBE LINK HERE
 
-   ```bash
-   npm install
-   ```
+## How to run
 
-2. Start the app
+1. Open the `christoffels_restaurent` folder in a terminal.
+2. Run `npm install`.
+3. Run `npx expo start --web`.
+4. Open the address shown in the terminal and go to `/menu`.
 
-   ```bash
-   npx expo start
-   ```
+## Features
 
-In the output, you'll find options to open the app in a
+- Add, edit and delete menu items
+- Search by dish name
+- Filter by course (Starters, Main courses, Desserts) and clear the search or filter
+- Menu statistics: total items, average price and number of items per course
+- Validation and clear success and error messages on the add and edit forms
+- Consistent header on every screen
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Change log (since Part 2)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### New features
+- Added Edit and Delete buttons to every dish, with a delete confirmation.
+- Added search by dish name only.
+- Added course filter buttons and a "Clear search and filter" link.
+- Added a Menu Statistics box showing total items, average price and the count per course. It updates when dishes are added, edited or deleted.
 
-## Get a fresh project
+### Refactoring and improvements
+- Moved repeated inline styles into the StyleSheet (statistics box and filter buttons).
+- Renamed unclear variables, for example `c` became `courseName`.
+- Fixed a bug where the add form used course names (Starter, Main, Dessert) that did not match the menu filters, so new dishes were missed by the filters and statistics.
+- Replaced the free-text course box on the edit screen with course buttons.
+- Added price validation to the edit screen (must be a number above 0).
+- Added one shared blue header with proper screen titles in `_layout.tsx`.
+- Removed duplicate headers and the black accent line from all screens for a consistent look.
 
-When you're ready, run:
+## References
 
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
-
-References
 Expo, 2026. Expo Router: File-based routing for React Native. Available at: expo.dev [Accessed 10 September 2026].
 Meta Open Source, 2026. React Native Core Components and APIs. Available at: reactnative.dev [Accessed 10 September 2026].
-Expo, 2026. Expo Router: File-based routing for React Native. Available at: expo.dev [Accessed 10 September 2026].
 React Core Team, 2026. React Documentation: Managing State Hooks. Available at: react.dev [Accessed 10 September 2026].
 GitHub, Inc., 2026. GitHub Desktop User Guide: Committing and syncing changes. Available at: github.com [Accessed 10 September 2026].
