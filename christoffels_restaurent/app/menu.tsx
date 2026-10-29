@@ -73,15 +73,10 @@ export default function Menu() {
         <Text style={styles.statsText}>Desserts: {countFor('Desserts')}</Text>
       </View>
 
-      {/* Top layout decorative accent line */}
-      <View style={styles.topLine} />
       
-      <View style={styles.headerRow}>
-        <View style={styles.leftHeader}>
-          {/* Back button routing trigger */}
-          <TouchableOpacity onPress={() => router.push('/')}><Text style={styles.backText}>←</Text></TouchableOpacity>
-          <Text style={styles.title}>Menu Items</Text>
-        </View>
+      
+            <View style={styles.headerRow}>
+        <View />
         {/* Navigation button to access add item form */}
         <TouchableOpacity style={styles.plusBtn} onPress={() => router.push('/add-item')}><Text style={styles.plusText}>+</Text></TouchableOpacity>
       </View>

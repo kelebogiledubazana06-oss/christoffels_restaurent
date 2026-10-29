@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function Index() {
   const router = useRouter();
@@ -7,7 +7,7 @@ export default function Index() {
   return (
     <View style={styles.container}>
       {/* Top decorative design bar */}
-      <View style={styles.headerLine} />
+      
       
       <Text style={styles.restaurantName}>Christoffel's Restaurant</Text>
 
