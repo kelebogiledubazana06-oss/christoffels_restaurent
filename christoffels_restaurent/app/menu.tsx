@@ -1,7 +1,7 @@
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, TextInput } from 'react-native';
-import { useRouter, useFocusEffect } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { menuItems, MenuItem } from './menuStore';
+import { Alert, FlatList, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { MenuItem, menuItems } from './menuStore';
 
 export default function Menu() {
   const router = useRouter();
@@ -9,12 +9,47 @@ export default function Menu() {
   // Local screen states for menu list array and search input string
   const [items, setItems] = useState<MenuItem[]>([]);
   const [search, setSearch] = useState('');
+  const [course, setCourse] = useState('All');
 
   // Reloads menu data from global store whenever the screen comes into focus
   useFocusEffect(useCallback(() => { setItems([...menuItems]); }, []));
   
   // Filters items dynamically based on name or course match
-  const filtered = items.filter(i => i.name.toLowerCase().includes(search.toLowerCase()) || i.course.toLowerCase().includes(search.toLowerCase()));
+ const filtered = items.filter(i =>
+  i.name.toLowerCase().includes(search.toLowerCase()) &&
+  (course === 'All' || i.course === course)
+);
+  // DELETE: Removes item from global store and reflects immediately
+  const handleDelete = (id: string) => {
+    const performDelete = () => {
+      const index = menuItems.findIndex(m => String(m.id) === String(id));
+      if (index !== -1) {
+        menuItems.splice(index, 1); // delete from global store
+        setItems([...menuItems]); // update local state to reflect immediately
+      }
+    };
+
+    // Safe handling for Web vs Mobile alerts
+    if (Platform.OS === 'web') {
+      if (confirm("Are you sure you want to delete this dish?")) {
+        performDelete();
+      }
+    } else {
+      Alert.alert(
+        "Delete Item",
+        "Are you sure you want to delete this dish?",
+        [
+          { text: "Cancel", style: "cancel" },
+          { text: "Delete", style: "destructive", onPress: performDelete }
+        ]
+      );
+    }
+  };
+
+  // EDIT: Navigate to edit screen with item id
+  const handleEdit = (id: string) => {
+    router.push({ pathname: '/edit-item', params: { id } } as any);
+  };
 
   return (
     <View style={styles.container}>
@@ -31,12 +66,38 @@ export default function Menu() {
         <TouchableOpacity style={styles.plusBtn} onPress={() => router.push('/add-item')}><Text style={styles.plusText}>+</Text></TouchableOpacity>
       </View>
 
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, paddingHorizontal: '6%', marginBottom: 10 }}>
+  {['All', 'Starters', 'Main courses', 'Desserts'].map(c => (
+    <TouchableOpacity
+      key={c}
+      onPress={() => setCourse(c)}
+      style={{
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        borderRadius: 14,
+        backgroundColor: course === c ? '#2F4F73' : '#F2F2F2',
+      }}
+    >
+      <Text style={{ fontSize: 11, fontWeight: '600', color: course === c ? '#FFF' : '#000' }}>{c}</Text>
+    </TouchableOpacity>
+  ))}
+</View>
+
       {/* Input textbox element managing live search state string updates */}
       <View style={styles.searchBox}>
         <TextInput placeholder="Search" style={styles.searchInput} value={search} onChangeText={setSearch} />
       </View>
 
-      {/* Conditional renderer layout logic: Shows fallback message box when result arrays match zero length */}
+            {(search !== '' || course !== 'All') && (
+        <TouchableOpacity
+          onPress={() => { setSearch(''); setCourse('All'); }}
+          style={{ alignSelf: 'flex-start', marginHorizontal: '6%', marginBottom: 10 }}
+        >
+          <Text style={{ fontSize: 12, color: '#2F4F73', fontWeight: '700' }}>Clear search and filter</Text>
+        </TouchableOpacity>
+      )}
+
+      {/* Conditional renderer layout logic */}
       {filtered.length === 0 ? (
         <View style={styles.emptyBox}>
           <Text style={styles.emptyTitle}>{search ? 'No results found' : 'No menu items yet'}</Text>
@@ -46,7 +107,7 @@ export default function Menu() {
         /* Scrolling display list mapping layout for structural list views */
         <FlatList
           data={filtered}
-          keyExtractor={item => item.id}
+          keyExtractor={item => String(item.id)}
           style={{ width: '100%' }}
           renderItem={({ item }) => (
             <View style={styles.itemRow}>
@@ -54,6 +115,16 @@ export default function Menu() {
                 <Text style={styles.itemName}>{item.name}</Text>
                 <Text style={styles.itemDesc}>{item.description}</Text>
                 <Text style={styles.itemCourse}>{item.course}</Text>
+                
+                {/* INTERACTIVE ACTION ROW FOR EDIT / DELETE */}
+                <View style={styles.actionRow}>
+                  <TouchableOpacity style={styles.editBtn} onPress={() => handleEdit(item.id)}>
+                    <Text style={styles.editText}>Edit</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.deleteBtn} onPress={() => handleDelete(item.id)}>
+                    <Text style={styles.deleteText}>Delete</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
               <Text style={styles.itemPrice}>R{item.price}</Text>
             </View>
@@ -83,5 +154,10 @@ const styles = StyleSheet.create({
   itemName: { fontSize: 13, fontWeight: '700', color: '#000', marginBottom: 4 },
   itemDesc: { fontSize: 11, color: '#888', lineHeight: 16, marginBottom: 6 },
   itemCourse: { fontSize: 10, color: '#2F4F73', fontWeight: '600' },
-  itemPrice: { fontSize: 12, fontWeight: '700', color: '#000' }, // Fixed key name here
+  itemPrice: { fontSize: 12, fontWeight: '700', color: '#000' },
+  actionRow: { flexDirection: 'row', marginTop: 10, gap: 10 },
+  editBtn: { backgroundColor: '#2F4F73', paddingHorizontal: 12, paddingVertical: 5, borderRadius: 5 },
+  editText: { color: '#FFF', fontSize: 10, fontWeight: '700' },
+  deleteBtn: { backgroundColor: '#FFEBEB', paddingHorizontal: 12, paddingVertical: 5, borderRadius: 5, borderWidth: 1, borderColor: '#FFCCCC' },
+  deleteText: { color: '#D00', fontSize: 10, fontWeight: '700' },
 });
