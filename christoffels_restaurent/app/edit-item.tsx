@@ -69,15 +69,6 @@ export default function EditItem() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.topLine} />
-
-      <View style={styles.headerRow}>
-        <TouchableOpacity onPress={() => router.back()}>
-          <Text style={styles.backText}>← Cancel</Text>
-        </TouchableOpacity>
-        <Text style={styles.title}>Edit Dish Info</Text>
-        <View style={{ width: 50 }} />
-      </View>
 
       <View style={styles.form}>
         <Text style={styles.label}>Dish Name</Text>

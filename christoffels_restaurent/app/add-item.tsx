@@ -52,12 +52,7 @@ export default function AddItem() {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 30 }}>
-      <View style={styles.topLine} />
-      <View style={styles.headerRow}>
-        <TouchableOpacity onPress={() => router.push('/menu')}><Text style={styles.backText}>←</Text></TouchableOpacity>
-        <Text style={styles.title}>Add menu Item</Text>
-      </View>
-
+  
       {/* Shows green message box only on successful save */}
       {success ? (
         <View style={styles.successBox}>
