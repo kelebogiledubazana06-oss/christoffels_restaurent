@@ -75,7 +75,7 @@ export default function AddItem() {
 
       <Text style={styles.label}>Course *</Text>
       <View style={{ flexDirection: 'row', gap: 8, marginHorizontal: '6%', marginBottom: 4 }}>
-        {['Starter', 'Main', 'Dessert'].map((c) => (
+        {['Starters', 'Main courses', 'Desserts'].map((c) => (
           <TouchableOpacity key={c} onPress={() => { setCourse(c); setErrors({...errors, course: null})}} style={[styles.chip, course === c && styles.chipActive]}>
             <Text style={[styles.chipText, course === c && styles.chipTextActive]}>{c}</Text>
           </TouchableOpacity>

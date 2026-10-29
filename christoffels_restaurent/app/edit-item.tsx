@@ -36,6 +36,15 @@ export default function EditItem() {
       return;
     }
 
+        if (isNaN(Number(price)) || Number(price) <= 0) {
+      if (Platform.OS === 'web') {
+        alert("Please enter a valid price greater than 0.");
+      } else {
+        Alert.alert("Validation Error", "Please enter a valid price greater than 0.");
+      }
+      return;
+    }
+
     // Find the item index in the shared memory store and replace its fields
     const index = menuItems.findIndex((m) => String(m.id) === String(id));
     if (index !== -1) {
@@ -89,13 +98,18 @@ export default function EditItem() {
           numberOfLines={3}
         />
 
-        <Text style={styles.label}>Course Type</Text>
-        <TextInput 
-          style={styles.input} 
-          value={course} 
-          onChangeText={setCourse} 
-          placeholder="Starters, Main courses, Desserts"
-        />
+                <Text style={styles.label}>Course Type</Text>
+        <View style={{ flexDirection: 'row', gap: 8 }}>
+          {['Starters', 'Main courses', 'Desserts'].map(courseName => (
+            <TouchableOpacity
+              key={courseName}
+              onPress={() => setCourse(courseName)}
+              style={[styles.chip, course === courseName && styles.chipActive]}
+            >
+              <Text style={[styles.chipText, course === courseName && styles.chipTextActive]}>{courseName}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
 
         <Text style={styles.label}>Price (ZAR)</Text>
         <TextInput 
@@ -125,5 +139,8 @@ const styles = StyleSheet.create({
   input: { borderBottomWidth: 1, borderBottomColor: '#CCC', paddingVertical: 8, fontSize: 14, color: '#000' },
   textArea: { textAlignVertical: 'top' },
   saveBtn: { backgroundColor: '#2F4F73', paddingVertical: 14, borderRadius: 8, alignItems: 'center', marginTop: 25 },
-  saveText: { color: '#FFF', fontSize: 14, fontWeight: '700' },
+  saveText: { color: '#FFF', fontSize: 14, fontWeight: '700' },   chip: { paddingHorizontal: 14, paddingVertical: 6, borderRadius: 15, borderWidth: 1, borderColor: '#DDD', backgroundColor: '#FFF' },
+  chipActive: { backgroundColor: '#000', borderColor: '#000' },
+  chipText: { fontSize: 11, color: '#000' },
+  chipTextActive: { color: '#FFF' },
 });
